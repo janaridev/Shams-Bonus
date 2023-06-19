@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     // Custom Extensions
     builder.Services.ConfigureSqlContext(builder.Configuration);
+    builder.Services.ConfigureIdentity();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
@@ -12,12 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-
     app.UseAuthorization();
 
     app.MapControllers();
