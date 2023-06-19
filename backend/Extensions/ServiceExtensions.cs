@@ -7,11 +7,28 @@ namespace backend.Extensions;
 
 public static class ServiceExtensions
 {
-    public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
-        services.AddDbContext<RepositoryContext>(opts =>
-            opts.UseMySql(configuration.GetConnectionString("mySqlConnection"),
-                ServerVersion.AutoDetect(configuration.GetConnectionString("mySqlConnection"))
-            ));
+    public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration,
+        IWebHostEnvironment env)
+    {
+        var mySqlConnectionProduction = Environment.GetEnvironmentVariable("mySqlConnectionProduction");
+
+        if (env.IsDevelopment())
+        {
+            services.AddDbContext<RepositoryContext>(opts =>
+                opts.UseMySql(configuration.GetConnectionString("mySqlConnectionDevelopment"),
+                    ServerVersion.AutoDetect(configuration.GetConnectionString("mySqlConnectionDevelopment"))
+                ));
+            Console.WriteLine("--> Using Development Database");
+        }
+        else
+        {
+            services.AddDbContext<RepositoryContext>(opts =>
+                opts.UseMySql(configuration.GetConnectionString(mySqlConnectionProduction),
+                    ServerVersion.AutoDetect(configuration.GetConnectionString(mySqlConnectionProduction))
+                ));
+            Console.WriteLine("--> Using Production Database");
+        }
+    }
 
     public static void ConfigureIdentity(this IServiceCollection services)
     {

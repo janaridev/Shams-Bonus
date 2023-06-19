@@ -13,7 +13,7 @@ public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryCo
             .AddJsonFile("appsettings.json")
             .Build();
 
-        var mySqlConnection = configuration.GetConnectionString("mySqlConnection");
+        var mySqlConnection = configuration.GetConnectionString("mySqlConnectionDevelopment");
 
         var builder = new DbContextOptionsBuilder<RepositoryContext>()
             .UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection),

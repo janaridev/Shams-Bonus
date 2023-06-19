@@ -3,7 +3,7 @@ using backend.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 {
     // Custom Extensions
-    builder.Services.ConfigureSqlContext(builder.Configuration);
+    builder.Services.ConfigureSqlContext(builder.Configuration, builder.Environment);
     builder.Services.ConfigureIdentity();
 
     builder.Services.AddControllers();
