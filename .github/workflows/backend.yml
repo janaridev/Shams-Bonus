@@ -11,14 +11,21 @@ on:
       - "backend/**"
 
 jobs:
-  api:
+  build:
     runs-on: self-hosted
+    strategy:
+      matrix:
+        dotnet-version: [7.x.x]
+
     steps:
+      - uses: actions/checkout@v3
+      - name: Use Dotnet ${{ matrix.dotner-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
       - name: Restore dependencies
-        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && sudo dotnet restore
+        run: dotnet restore
       - name: Build
-        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && sudo dotnet build --no-restore
+        run: dotnet build --no-restore
       - name: Publish
-        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && sudo dotnet publish -C release -o /home/ubuntu/production/backend
-      - name: pm2 restart
-        run: sudo pm2 restart backend
+        run: dotnet publish -C release -o /home/ubuntu/production/backend
