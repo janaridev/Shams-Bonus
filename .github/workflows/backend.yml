@@ -19,8 +19,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Clone repository
-        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus && git clone https://github.com/csharpjanari/Shams-Bonus.git
       - name: Restore dependencies
         run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && dotnet restore
       - name: Build
