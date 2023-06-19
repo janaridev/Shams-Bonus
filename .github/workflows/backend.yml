@@ -26,4 +26,4 @@ jobs:
       - name: Publish
         run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && sudo dotnet publish -o /home/ubuntu/production/backend
       - name: Restarting backend
-        run: sudo pm2 restart backend
+        run: pm2 restart backend
