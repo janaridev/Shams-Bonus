@@ -20,6 +20,6 @@ jobs:
       - name: Build
         run: cd backend && sudo dotnet build --no-restore
       - name: Publish
-        run: cd backend && sudo dotnet publish -C release -o /home/ubuntu/production/backend
+        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && sudo dotnet publish -C release -o /home/ubuntu/production/backend
       - name: pm2 restart
         run: sudo pm2 restart backend
