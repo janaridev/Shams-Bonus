@@ -24,4 +24,4 @@ jobs:
       - name: Build
         run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && dotnet build --no-restore
       - name: Publish
-        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && dotnet publish -C release -o /home/ubuntu/production/backend
+        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && sudo dotnet publish -o /home/ubuntu/production/backend
