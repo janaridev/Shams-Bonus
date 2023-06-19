@@ -14,7 +14,6 @@ jobs:
   api:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
       - name: Restore dependencies
         run: cd backend && sudo dotnet restore
       - name: Build
