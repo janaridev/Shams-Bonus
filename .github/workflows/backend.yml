@@ -19,13 +19,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      # - name: Use Dotnet ${{ matrix.dotner-version }}
-      #   uses: actions/setup-dotnet@v3
-      #   with:
-      #     dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Clone repository
+        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus && git clone https://github.com/csharpjanari/Shams-Bonus.git
       - name: Restore dependencies
-        run: dotnet restore
+        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && dotnet restore
       - name: Build
-        run: dotnet build --no-restore
+        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && dotnet build --no-restore
       - name: Publish
-        run: dotnet publish -C release -o /home/ubuntu/production/backend
+        run: cd /home/ubuntu/Shams-Bonus/_work/Shams-Bonus/Shams-Bonus/backend && dotnet publish -C release -o /home/ubuntu/production/backend
