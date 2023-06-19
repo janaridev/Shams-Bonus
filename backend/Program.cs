@@ -1,5 +1,10 @@
+using backend.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 {
+    // Custom Extensions
+    builder.Services.ConfigureSqlContext(builder.Configuration);
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -7,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
