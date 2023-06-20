@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityModels : Migration
+    public partial class InitialData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -208,8 +208,8 @@ namespace backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "add4fa9c-bb46-4202-a69e-809380f23d0d", null, "Administrator", "ADMINISTRATOR" },
-                    { "d84bdb02-5eed-4d85-9ed1-5c6c13f3829c", null, "User", "USER" }
+                    { "d0413314-f18d-480d-9d2a-5377b3d80dc4", null, "Administrator", "ADMINISTRATOR" },
+                    { "ee99d431-9956-482a-986c-1828c46a77e7", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

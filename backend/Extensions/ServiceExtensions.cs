@@ -10,7 +10,7 @@ public static class ServiceExtensions
     public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration,
         IWebHostEnvironment env)
     {
-        var mySqlConnectionProduction = Environment.GetEnvironmentVariable("mySqlConnectionProduction");
+        var productionConnection = Environment.GetEnvironmentVariable("mySqlConnectionProduction");
 
         if (env.IsDevelopment())
         {
@@ -23,8 +23,8 @@ public static class ServiceExtensions
         else
         {
             services.AddDbContext<RepositoryContext>(opts =>
-                opts.UseMySql(configuration.GetConnectionString(mySqlConnectionProduction),
-                    ServerVersion.AutoDetect(configuration.GetConnectionString(mySqlConnectionProduction))
+                opts.UseMySql(productionConnection,
+                    ServerVersion.AutoDetect(productionConnection)
                 ));
             Console.WriteLine("--> Using Production Database");
         }

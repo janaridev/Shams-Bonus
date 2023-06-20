@@ -7,7 +7,7 @@ namespace backend.Data;
 
 public class RepositoryContext : IdentityDbContext<User>
 {
-    public RepositoryContext(DbContextOptions options) : base(options)
+    public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options)
     { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

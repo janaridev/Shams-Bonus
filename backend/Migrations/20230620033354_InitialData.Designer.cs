@@ -11,8 +11,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230619053954_IdentityModels")]
-    partial class IdentityModels
+    [Migration("20230620033354_InitialData")]
+    partial class InitialData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,13 +50,13 @@ namespace backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d84bdb02-5eed-4d85-9ed1-5c6c13f3829c",
+                            Id = "ee99d431-9956-482a-986c-1828c46a77e7",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "add4fa9c-bb46-4202-a69e-809380f23d0d",
+                            Id = "d0413314-f18d-480d-9d2a-5377b3d80dc4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
