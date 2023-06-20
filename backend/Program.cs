@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.ConfigureSqlContext(builder.Configuration, builder.Environment);
     builder.Services.ConfigureIdentity();
 
+    builder.Services.AddAutoMapper(typeof(Program));
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
