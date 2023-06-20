@@ -1,4 +1,5 @@
 using backend.ActionFilters;
+using backend.Data;
 using backend.Data.Repository.Auth;
 using backend.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +10,18 @@ namespace backend.Controllers;
 [Route("api/authentication")]
 public class AuthenticationController : ControllerBase
 {
-    private readonly IAuthenticationRepository _auth;
+    private readonly IRepositoryManager _repository;
 
-    public AuthenticationController(IAuthenticationRepository auth)
+    public AuthenticationController(IRepositoryManager repository)
     {
-        _auth = auth;
+        _repository = repository;
     }
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
     {
-        var result = await _auth.RegisterUser(userForRegistration);
+        var result = await _repository.AuthService.RegisterUser(userForRegistration);
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)
@@ -37,9 +38,9 @@ public class AuthenticationController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
     {
-        if (!await _auth.ValidateUser(user))
+        if (!await _repository.AuthService.ValidateUser(user))
             return Unauthorized();
 
-        return Ok(new { Token = await _auth.CreateToken() });
+        return Ok(new { Token = await _repository.AuthService.CreateToken() });
     }
 }
