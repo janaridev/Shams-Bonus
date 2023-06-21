@@ -1,5 +1,4 @@
 using backend.ActionFilters;
-using backend.Data;
 using backend.Data.Repository.Auth;
 using backend.Dtos;
 using Microsoft.AspNetCore.Mvc;
