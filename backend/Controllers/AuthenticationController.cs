@@ -10,18 +10,18 @@ namespace backend.Controllers;
 [Route("api/authentication")]
 public class AuthenticationController : ControllerBase
 {
-    private readonly IRepositoryManager _repository;
+    private readonly IAuthenticationRepository _authRepository;
 
-    public AuthenticationController(IRepositoryManager repository)
+    public AuthenticationController(IAuthenticationRepository authentRepository)
     {
-        _repository = repository;
+        _authRepository = authentRepository;
     }
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
     {
-        var result = await _repository.AuthService.RegisterUser(userForRegistration);
+        var result = await _authRepository.RegisterUser(userForRegistration);
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)
@@ -38,9 +38,9 @@ public class AuthenticationController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
     {
-        if (!await _repository.AuthService.ValidateUser(user))
+        if (!await _authRepository.ValidateUser(user))
             return Unauthorized();
 
-        return Ok(new { Token = await _repository.AuthService.CreateToken() });
+        return Ok(new { Token = await _authRepository.CreateToken() });
     }
 }
