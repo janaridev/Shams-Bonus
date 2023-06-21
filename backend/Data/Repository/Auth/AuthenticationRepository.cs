@@ -61,6 +61,7 @@ public class AuthenticationRepository : IAuthenticationRepository
     private SigningCredentials GetSigningCredentials()
     {
         var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
+        Console.WriteLine(key);
         var secret = new SymmetricSecurityKey(key);
 
         return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
@@ -70,7 +71,8 @@ public class AuthenticationRepository : IAuthenticationRepository
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, _user.UserName)
+            new Claim(ClaimTypes.Name, _user.UserName),
+            new Claim("userId", _user.Id)
         };
 
         var roles = await _userManager.GetRolesAsync(_user);
