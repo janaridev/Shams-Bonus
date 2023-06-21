@@ -1,6 +1,7 @@
 using System.Text;
 using backend.Data;
 using backend.Data.Repository.Auth;
+using backend.Data.Repository.Client;
 using backend.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -45,12 +46,10 @@ public static class ServiceExtensions
         }
     }
 
-    public static void ConfigureRepositoryManager(this IServiceCollection services) =>
-        services.AddScoped<IRepositoryManager, RepositoryManager>();
-
     public static void ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+        services.AddScoped<IClientRepository, ClientRepository>();
     }
 
     public static void ConfigureIdentity(this IServiceCollection services)

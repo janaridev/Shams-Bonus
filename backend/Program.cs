@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.ConfigureSqlContext(builder.Configuration, builder.Environment);
     builder.Services.ConfigureServices();
     builder.Services.ConfigureIdentity();
+    builder.Services.ConfigureJWT(builder.Configuration);
 
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddAutoMapper(typeof(Program));
