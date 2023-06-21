@@ -21,6 +21,8 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
     {
         var result = await _authRepository.RegisterUser(userForRegistration);
+        if (result == null) return BadRequest("Пароли не совпадают.");
+
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)

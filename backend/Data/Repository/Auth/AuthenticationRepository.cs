@@ -28,6 +28,8 @@ public class AuthenticationRepository : IAuthenticationRepository
     public async Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration)
     {
         var user = _mapper.Map<User>(userForRegistration);
+        var isMatched = ConfirmPassword(userForRegistration.Password, userForRegistration.ConfirmPassword);
+        if (!isMatched) return null;
 
         var result = await _userManager.CreateAsync(user, userForRegistration.Password);
         if (result.Succeeded)
@@ -99,5 +101,10 @@ public class AuthenticationRepository : IAuthenticationRepository
         );
 
         return tokenOptions;
+    }
+
+    private bool ConfirmPassword(string password, string confirmPassword)
+    {
+        return password == confirmPassword ? true : false;
     }
 }
