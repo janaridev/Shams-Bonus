@@ -9,14 +9,10 @@ public record UserForRegistrationDto
     public string LastName { get; init; }
 
     [Required(ErrorMessage = "Обязательное поле.")]
-    public string UserName { get; init; }
+    public string UserName { get; init; } // will be phone number
 
     [Required(ErrorMessage = "Обязательное поле.")]
     public string Password { get; init; }
-
-    public string Email { get; init; }
-
-    public string PhoneNumber { get; init; }
 
     public decimal Bonuses { get; init; } = 0;
 }
