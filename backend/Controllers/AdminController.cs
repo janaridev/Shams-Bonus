@@ -16,11 +16,20 @@ public class AdminController : ControllerBase
         _adminRepository = adminRepository;
     }
 
-    [HttpPut("{phoneNumber}")]
+    [HttpPut("deductionBonuses/{phoneNumber}")]
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> UpdateBonuses(string phoneNumber, [FromBody] BonusDto bonuses)
+    public async Task<IActionResult> DeductionBonuses(string phoneNumber, [FromBody] BonusDto bonuses)
     {
         var leftBonuses = await _adminRepository.BonusDeduction(phoneNumber, bonuses.Value);
         return Ok(leftBonuses);
+    }
+
+    [HttpPut("addBonuses/{phoneNumber}")]
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> AddBonuses(string phoneNumber, [FromBody] CheckAmountDto checkAmount)
+    {
+        var currentBonuses = await _adminRepository.BonusCalculationsBasedOnCheckAmount(phoneNumber,
+            checkAmount.Value);
+        return Ok(currentBonuses);
     }
 }
