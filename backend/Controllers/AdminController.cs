@@ -1,5 +1,5 @@
 using backend.Data.Repository.Admin;
-using backend.Entities;
+using backend.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +18,7 @@ public class AdminController : ControllerBase
 
     [HttpPut("{phoneNumber}")]
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> UpdateBonuses(string phoneNumber, [FromBody] Bonus bonuses)
+    public async Task<IActionResult> UpdateBonuses(string phoneNumber, [FromBody] BonusDto bonuses)
     {
         var leftBonuses = await _adminRepository.BonusDeduction(phoneNumber, bonuses.Value);
         return Ok(leftBonuses);
