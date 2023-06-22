@@ -1,5 +1,6 @@
 using System.Text;
 using backend.Data;
+using backend.Data.Repository.Admin;
 using backend.Data.Repository.Auth;
 using backend.Data.Repository.Client;
 using backend.Entities;
@@ -50,6 +51,7 @@ public static class ServiceExtensions
     {
         services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IAdminRepository, AdminRepository>();
     }
 
     public static void ConfigureIdentity(this IServiceCollection services)
