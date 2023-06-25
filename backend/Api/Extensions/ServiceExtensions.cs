@@ -57,9 +57,6 @@ public static class ServiceExtensions
     public static void ConfigureRepositoryBase(this IServiceCollection services) =>
         services.AddScoped<IRepositoryBase, RepositoryBase>();
 
-    public static void ConfgigureHostEnvironment(this IServiceCollection services) =>
-        services.AddSingleton<IWebHostEnvironment>();
-
     public static void ConfigureIdentity(this IServiceCollection services)
     {
         var builder = services.AddIdentity<User, IdentityRole>(o =>
