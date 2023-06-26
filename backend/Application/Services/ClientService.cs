@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using backend.Application.IServices;
 using backend.Domain.Entities;
+using backend.Domain.Exceptions.BadRequest;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -19,6 +20,9 @@ public class ClientService : IClientService
 
     public async Task<decimal> GetBonuses(string userId)
     {
+        if (userId is null) 
+            throw new UserIdBadRequestException();
+
         var user = await _userManager.FindByIdAsync(userId);
         return decimal.Round(user.Bonuses);
     }
@@ -28,6 +32,9 @@ public class ClientService : IClientService
         var userId = string.Empty;
         if (_httpContextAccessor.HttpContext is not null)
             userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
+
+        if (userId is null)
+            throw new Exception("Нету юзера айди");
 
         return userId;
     }

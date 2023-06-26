@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace backend.Application.Dtos;
 
 public record UserForRegistrationDto
-{
+{   
     public string FirstName { get; init; }
 
     public string LastName { get; init; }

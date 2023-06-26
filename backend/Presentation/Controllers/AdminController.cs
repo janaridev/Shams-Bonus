@@ -1,3 +1,4 @@
+using backend.Presentation.ActionFilters;
 using backend.Application.Dtos;
 using backend.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPut("deductionBonuses/{phoneNumber}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeductionBonuses(string phoneNumber, [FromBody] BonusDto bonuses)
     {
@@ -25,6 +27,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPut("addBonuses/{phoneNumber}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> AddBonuses(string phoneNumber, [FromBody] CheckAmountDto checkAmount)
     {

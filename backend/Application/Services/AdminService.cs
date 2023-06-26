@@ -1,5 +1,6 @@
 using backend.Application.IServices;
 using backend.Domain.Entities;
+using backend.Domain.Exceptions.NotFound;
 using backend.Domain.IRepository;
 using Microsoft.AspNetCore.Identity;
 
@@ -19,6 +20,8 @@ public class AdminService : IAdminService
     public async Task<decimal> BonusDeduction(string phoneNumber, decimal bonusDeduction)
     {
         var user = await _userManager.FindByNameAsync(phoneNumber);
+        if (user is null)
+            throw new UserNotFoundException(phoneNumber);
 
         if (user.Bonuses >= bonusDeduction)
         {
@@ -32,26 +35,30 @@ public class AdminService : IAdminService
     public async Task<decimal> BonusCalculationsBasedOnCheckAmount(string phoneNumber, decimal checkAmount)
     {
         var user = await _userManager.FindByNameAsync(phoneNumber);
-        user.Bonuses += CalculateBonuses(checkAmount, user.Bonuses);
+        if (user is null)
+            throw new UserNotFoundException(phoneNumber);
+
+        user.Bonuses += CalculateBonuses(checkAmount);
 
         await _repositoryBase.SaveChangesAsync();
         return decimal.Round(user.Bonuses);
     }
 
-    private decimal CalculateBonuses(decimal checkAmount, decimal currentBonuses)
+    private decimal CalculateBonuses(decimal checkAmount)
     {
+        decimal result = 0;
         if (checkAmount > 0)
         {
             if (checkAmount >= 10000 && checkAmount <= 50000)
             {
-                currentBonuses = checkAmount * 0.05m; // 5% bonus
+                result = checkAmount * 0.05m; // 5% bonus
             }
             else if (checkAmount > 50000)
             {
-                currentBonuses = checkAmount * 0.1m; // 10% bonus
+                result = checkAmount * 0.1m; // 10% bonus
             }
         }
 
-        return currentBonuses;
+        return result;
     }
 }

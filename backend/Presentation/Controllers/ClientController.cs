@@ -16,7 +16,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = "Client")]
+    [Authorize(Roles = "User")]
     public async Task<IActionResult> GetBonuses()
     {
         var userId = _clientService.GetUserId();

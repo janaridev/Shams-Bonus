@@ -1,4 +1,4 @@
-using backend.ActionFilters;
+using backend.Presentation.ActionFilters;
 using backend.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +24,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.ConfigureExceptionHandler();
+
     app.UseCors("CorsPolicy");
 
     app.UseAuthentication();
