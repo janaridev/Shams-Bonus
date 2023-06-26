@@ -17,15 +17,15 @@ public class AdminService : IAdminService
         _repositoryBase = repositoryBase;
     }
 
-    public async Task<decimal> BonusDeduction(string phoneNumber, decimal bonusDeduction)
+    public async Task<decimal> BonusDeduction(string phoneNumber, decimal bonusesForDeduction)
     {
         var user = await _userManager.FindByNameAsync(phoneNumber);
         if (user is null)
             throw new UserNotFoundException(phoneNumber);
 
-        if (user.Bonuses >= bonusDeduction)
+        if (user.Bonuses >= bonusesForDeduction)
         {
-            user.Bonuses -= bonusDeduction;
+            user.Bonuses -= bonusesForDeduction;
             await _repositoryBase.SaveChangesAsync();
         }
 

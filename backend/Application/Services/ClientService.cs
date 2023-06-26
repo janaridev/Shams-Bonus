@@ -20,7 +20,7 @@ public class ClientService : IClientService
 
     public async Task<decimal> GetBonuses(string userId)
     {
-        if (userId is null) 
+        if (userId is null)
             throw new UserIdBadRequestException();
 
         var user = await _userManager.FindByIdAsync(userId);
@@ -34,7 +34,7 @@ public class ClientService : IClientService
             userId = _httpContextAccessor.HttpContext.User.FindFirstValue("userId");
 
         if (userId is null)
-            throw new Exception("Нету юзера айди");
+            throw new Exception("User Id is null");
 
         return userId;
     }
