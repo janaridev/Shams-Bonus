@@ -2,6 +2,7 @@ using backend.Presentation.ActionFilters;
 using backend.Application.Dtos;
 using backend.Application.IServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace backend.Presentation.Controllers;
 
@@ -21,27 +22,16 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
     {
         var result = await _authService.RegisterUser(userForRegistration);
-        if (result == null) return BadRequest("Пароли не совпадают.");
+        if (result.StatusCode == HttpStatusCode.Conflict) { return Conflict(result); }
 
-        if (!result.Succeeded)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.TryAddModelError(error.Code, error.Description);
-            }
-            return BadRequest(ModelState);
-        }
-
-        return StatusCode(201);
+        return result.StatusCode is HttpStatusCode.Created ? Ok(result) : BadRequest(result);
     }
 
     [HttpPost("login")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
     {
-        if (!await _authService.ValidateUser(user))
-            return Unauthorized();
-
-        return Ok(new { Token = await _authService.CreateToken() });
+        var result = await _authService.ValidateUser(user);
+        return result.StatusCode is HttpStatusCode.OK ? Ok(result) : BadRequest(result);
     }
 }

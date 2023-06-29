@@ -1,11 +1,11 @@
 using backend.Application.Dtos;
-using Microsoft.AspNetCore.Identity;
+using backend.Domain.Entities;
 
 namespace backend.Application.IServices;
 
 public interface IAuthenticationService
 {
-    Task<IdentityResult> RegisterUser(UserForRegistrationDto userForRegistration);
-    Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);
+    Task<ApiResponse> RegisterUser(UserForRegistrationDto userForRegistration);
+    Task<ApiResponse> ValidateUser(UserForAuthenticationDto userForAuth);
     Task<string> CreateToken();
 }
