@@ -11,19 +11,23 @@ const BonusWidget = () => {
     <WidgetWrapper>
       <Box
         sx={{
-          fontSize: "20px",
+          fontSize: "40px",
           fontWeight: "500",
-          p: isNonMobile ? "3rem" : "2rem",
+          p: isNonMobile ? "5rem" : "2.5rem",
         }}
       >
         У вас{" "}
         <Typography
-          fontWeight="bold"
+          fontWeight="700"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
+          sx={{
+            fontSize: isNonMobile ? "60px" : "50px",
+            textDecoration: "underline",
+          }}
         >
           {bonuses}
-        </Typography>{" "}
+        </Typography>
         бонусов
       </Box>
     </WidgetWrapper>
