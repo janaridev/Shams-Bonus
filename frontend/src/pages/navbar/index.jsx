@@ -85,6 +85,7 @@ const Navbar = () => {
               <MenuItem value={showedData}>
                 <Typography>{showedData}</Typography>
               </MenuItem>
+              <MenuItem>Настройки</MenuItem>
               <MenuItem onClick={() => dispatch(setLogout())}>Выйти</MenuItem>
             </Select>
           </FormControl>
@@ -147,6 +148,7 @@ const Navbar = () => {
                 <MenuItem value={showedData}>
                   <Typography>{showedData}</Typography>
                 </MenuItem>
+                <MenuItem>Настройки</MenuItem>
                 <MenuItem onClick={() => dispatch(setLogout())}>Выйти</MenuItem>
               </Select>
             </FormControl>
