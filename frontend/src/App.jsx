@@ -23,10 +23,6 @@ function App() {
               path="/home"
               element={isAuth ? <HomePage /> : <Navigate to="/" />}
             />
-            <Route
-              path="/admin"
-              element={isAuth ? <AdminPage /> : <Navigate to="/" />}
-            />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
