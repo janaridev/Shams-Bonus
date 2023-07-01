@@ -3,6 +3,7 @@ using backend.Application.Dtos;
 using backend.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace backend.Presentation.Controllers;
 
@@ -22,8 +23,8 @@ public class AdminController : ControllerBase
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeductionBonuses(string phoneNumber, [FromBody] BonusDto bonuses)
     {
-        var leftBonuses = await _adminService.BonusDeduction(phoneNumber, bonuses.Value);
-        return Ok(leftBonuses);
+        var result = await _adminService.BonusDeduction(phoneNumber, bonuses.Value);
+        return result.StatusCode == HttpStatusCode.OK ? Ok(result) : NotFound(result);
     }
 
     [HttpPut("addBonuses/{phoneNumber}")]
@@ -31,8 +32,8 @@ public class AdminController : ControllerBase
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> AddBonuses(string phoneNumber, [FromBody] CheckAmountDto checkAmount)
     {
-        var currentBonuses = await _adminService.BonusCalculationsBasedOnCheckAmount(phoneNumber,
+        var result = await _adminService.BonusCalculationsBasedOnCheckAmount(phoneNumber,
             checkAmount.Value);
-        return Ok(currentBonuses);
+        return result.StatusCode == HttpStatusCode.OK ? Ok(result) : NotFound(result);
     }
 }

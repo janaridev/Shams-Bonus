@@ -1,3 +1,4 @@
+using System.Net;
 using backend.Application.IServices;
 using backend.Domain.Entities;
 using backend.Domain.Exceptions.NotFound;
@@ -11,17 +12,26 @@ public class AdminService : IAdminService
     private readonly UserManager<User> _userManager;
     private readonly IRepositoryBase _repositoryBase;
 
+    protected ApiResponse _response;
+
     public AdminService(UserManager<User> userManager, IRepositoryBase repositoryBase)
     {
         _userManager = userManager;
         _repositoryBase = repositoryBase;
+        _response = new();
     }
 
-    public async Task<decimal> BonusDeduction(string phoneNumber, decimal bonusesForDeduction)
+    public async Task<ApiResponse> BonusDeduction(string phoneNumber, decimal bonusesForDeduction)
     {
         var user = await _userManager.FindByNameAsync(phoneNumber);
         if (user is null)
-            throw new UserNotFoundException(phoneNumber);
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.NotFound;
+            _response.ErrorMessages.Add("Данного номера телефона не существует.");
+
+            return _response;
+        };
 
         if (user.Bonuses >= bonusesForDeduction)
         {
@@ -29,19 +39,31 @@ public class AdminService : IAdminService
             await _repositoryBase.SaveChangesAsync();
         }
 
-        return decimal.Round(user.Bonuses);
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = decimal.Round(user.Bonuses);
+
+        return _response;
     }
 
-    public async Task<decimal> BonusCalculationsBasedOnCheckAmount(string phoneNumber, decimal checkAmount)
+    public async Task<ApiResponse> BonusCalculationsBasedOnCheckAmount(string phoneNumber, decimal checkAmount)
     {
         var user = await _userManager.FindByNameAsync(phoneNumber);
         if (user is null)
-            throw new UserNotFoundException(phoneNumber);
+        {
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.NotFound;
+            _response.ErrorMessages.Add("Данного номера телефона не существует.");
+
+            return _response;
+        };
 
         user.Bonuses += CalculateBonuses(checkAmount);
-
         await _repositoryBase.SaveChangesAsync();
-        return decimal.Round(user.Bonuses);
+
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = decimal.Round(user.Bonuses);
+
+        return _response;
     }
 
     private decimal CalculateBonuses(decimal checkAmount)
