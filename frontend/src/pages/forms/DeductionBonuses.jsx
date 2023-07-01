@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import FlexBetween from "../../components/FlexBetween";
 import * as yup from "yup";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const deductionBonusesSchema = yup.object().shape({
   phoneNumber: yup
@@ -24,7 +25,8 @@ const deductionBonuses = async (
   values,
   onSubmitProps,
   token,
-  setActiveButton
+  setActiveButton,
+  theme
 ) => {
   try {
     const response = await axios.put(
@@ -37,37 +39,56 @@ const deductionBonuses = async (
         },
       }
     );
-    const responseData = response.data;
 
     if (response.status === 200) {
-      //Sweet Alert
-      console.log(responseData.bonuses);
+      toast.success("Успешно!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: theme === "light" ? "light" : "dark",
+      });
       setActiveButton(null);
-    } else {
     }
 
     onSubmitProps.resetForm();
-  } catch (error) {}
+  } catch (error) {
+    toast.error(`${error.response.data.errorMessages}`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: theme === "light" ? "light" : "dark",
+    });
+  }
 };
 
 const handleFormSubmit = async (
   values,
   onSubmitProps,
   token,
-  setActiveButton
+  setActiveButton,
+  theme
 ) => {
-  await deductionBonuses(values, onSubmitProps, token, setActiveButton);
+  await deductionBonuses(values, onSubmitProps, token, setActiveButton, theme);
 };
 
 const DeductionBonuses = ({ setActiveButton }) => {
   const { palette } = useTheme();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const token = useSelector((state) => state.token);
+  const theme = useSelector((state) => state.mode);
 
   return (
     <Formik
       onSubmit={(values, onSubmitProps) =>
-        handleFormSubmit(values, onSubmitProps, token, setActiveButton)
+        handleFormSubmit(values, onSubmitProps, token, setActiveButton, theme)
       }
       initialValues={initialValuesDeductionBonuses}
       validationSchema={deductionBonusesSchema}

@@ -24,6 +24,9 @@ public class AdminController : ControllerBase
     public async Task<IActionResult> DeductionBonuses(string phoneNumber, [FromBody] BonusDto bonuses)
     {
         var result = await _adminService.BonusDeduction(phoneNumber, bonuses.Value);
+        if (result.StatusCode == HttpStatusCode.BadRequest)
+            return BadRequest(result);
+
         return result.StatusCode == HttpStatusCode.OK ? Ok(result) : NotFound(result);
     }
 

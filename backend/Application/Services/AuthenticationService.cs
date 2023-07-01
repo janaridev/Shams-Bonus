@@ -95,7 +95,6 @@ public class AuthenticationService : IAuthenticationService
             FirstName = _user.FirstName,
             LastName = _user.LastName,
             UserName = _user.UserName, //phone number
-            Bonuses = _user.Bonuses
         };
 
         _response.StatusCode = HttpStatusCode.OK;

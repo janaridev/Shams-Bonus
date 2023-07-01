@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import FlexBetween from "../../components/FlexBetween";
 import * as yup from "yup";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const addBonusesSchema = yup.object().shape({
   phoneNumber: yup
@@ -20,7 +21,13 @@ const initialValuesAddBonuses = {
   value: 0,
 };
 
-const addBonuses = async (values, onSubmitProps, token, setActiveButton) => {
+const addBonuses = async (
+  values,
+  onSubmitProps,
+  token,
+  setActiveButton,
+  theme
+) => {
   try {
     const response = await axios.put(
       `http://localhost:5000/api/admin/addBonuses/${values.phoneNumber}`,
@@ -32,37 +39,56 @@ const addBonuses = async (values, onSubmitProps, token, setActiveButton) => {
         },
       }
     );
-    const responseData = response.data;
 
     if (response.status === 200) {
-      //Sweet Alert
-      console.log(responseData.bonuses);
       setActiveButton(null);
-    } else {
+      toast.success("Успешно!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: theme === "light" ? "light" : "dark",
+      });
     }
 
     onSubmitProps.resetForm();
-  } catch (error) {}
+  } catch (error) {
+    toast.error(`${error.response.data.errorMessages}`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: theme === "light" ? "light" : "dark",
+    });
+  }
 };
 
 const handleFormSubmit = async (
   values,
   onSubmitProps,
   token,
-  setActiveButton
+  setActiveButton,
+  theme
 ) => {
-  await addBonuses(values, onSubmitProps, token, setActiveButton);
+  await addBonuses(values, onSubmitProps, token, setActiveButton, theme);
 };
 
 const AddBonuses = ({ setActiveButton }) => {
   const { palette } = useTheme();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const token = useSelector((state) => state.token);
+  const theme = useSelector((state) => state.mode);
 
   return (
     <Formik
       onSubmit={(values, onSubmitProps) =>
-        handleFormSubmit(values, onSubmitProps, token, setActiveButton)
+        handleFormSubmit(values, onSubmitProps, token, setActiveButton, theme)
       }
       initialValues={initialValuesAddBonuses}
       validationSchema={addBonusesSchema}

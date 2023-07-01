@@ -10,9 +10,10 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "../../state";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().max(15, "Максимум 15 символов."),
@@ -51,6 +52,7 @@ const Form = () => {
   const [pageType, setPageType] = useState("login");
   const [error, setError] = useState(null);
   const { palette } = useTheme();
+  const theme = useSelector((state) => state.mode);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -93,6 +95,16 @@ const Form = () => {
             token: loggedIn.result.token,
           })
         );
+        toast.success("Добро Пожаловать", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: theme === "light" ? "light" : "dark",
+        });
         navigate("/home");
       }
     } catch (error) {

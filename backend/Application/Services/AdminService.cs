@@ -33,11 +33,17 @@ public class AdminService : IAdminService
             return _response;
         };
 
-        if (user.Bonuses >= bonusesForDeduction)
+        if (user.Bonuses < bonusesForDeduction)
         {
-            user.Bonuses -= bonusesForDeduction;
-            await _repositoryBase.SaveChangesAsync();
+            _response.IsSuccess = false;
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessages.Add("Недостаточно средств");
+
+            return _response;
         }
+
+        user.Bonuses -= bonusesForDeduction;
+        await _repositoryBase.SaveChangesAsync();
 
         _response.StatusCode = HttpStatusCode.OK;
         _response.Result = decimal.Round(user.Bonuses);

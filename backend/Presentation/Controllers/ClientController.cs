@@ -1,3 +1,4 @@
+using System.Net;
 using backend.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -5,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Presentation.Controllers;
 
 [ApiController]
-[Route("api/client")]
+[Route("api/user")]
 public class ClientController : ControllerBase
 {
     private readonly IClientService _clientService;
@@ -20,8 +21,8 @@ public class ClientController : ControllerBase
     public async Task<IActionResult> GetBonuses()
     {
         var userId = _clientService.GetUserId();
-        var bonuses = await _clientService.GetBonuses(userId);
+        var result = await _clientService.GetBonuses(userId);
 
-        return Ok(bonuses);
+        return result.StatusCode == HttpStatusCode.OK ? Ok(result) : StatusCode(500, result);
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
-import AddBonuses from "../forms/PlusBonuses";
+import AddBonuses from "../forms/AddBonuses";
 import DeductionBonuses from "../forms/DeductionBonuses";
 
 const AdminWidget = () => {
