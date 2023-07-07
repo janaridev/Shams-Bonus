@@ -68,6 +68,7 @@ const Form = () => {
       onSubmitProps.resetForm();
 
       if (response.status === 200) {
+        setError(null);
         setPageType("login");
       }
     } catch (error) {
@@ -95,6 +96,7 @@ const Form = () => {
             token: loggedIn.result.token,
           })
         );
+        setError(null);
         toast.success("Добро Пожаловать", {
           position: "top-right",
           autoClose: 2000,
