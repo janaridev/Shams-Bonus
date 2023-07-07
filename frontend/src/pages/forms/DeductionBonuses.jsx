@@ -10,10 +10,14 @@ import { toast } from "react-toastify";
 const deductionBonusesSchema = yup.object().shape({
   phoneNumber: yup
     .string()
+    .matches(/^[0-9]+$/, "Введите только цифры.")
     .min(10, "Вы ввели не правильный номер телефона.")
     .max(10, "Вы ввели не правильный номер телефона.")
     .required("Обязательное поле."), // will be phone number
-  value: yup.string().required("Обязательное поле."),
+  value: yup
+    .number()
+    .min(1, "Минимальное число должно быть 1.")
+    .required("Обязательное поле."),
 });
 
 const initialValuesDeductionBonuses = {
@@ -56,16 +60,23 @@ const deductionBonuses = async (
 
     onSubmitProps.resetForm();
   } catch (error) {
-    toast.error(`${error.response.data.errorMessages}`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: theme === "light" ? "light" : "dark",
-    });
+    toast.error(
+      `${
+        !error.response.data.errorMessages
+          ? "Что-то пошло не так."
+          : error.response.data.errorMessages
+      }`,
+      {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: theme === "light" ? "light" : "dark",
+      }
+    );
   }
 };
 
