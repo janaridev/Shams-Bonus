@@ -2,7 +2,6 @@ using System.Net;
 using System.Security.Claims;
 using backend.Application.IServices;
 using backend.Domain.Entities;
-using backend.Domain.Exceptions.BadRequest;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 

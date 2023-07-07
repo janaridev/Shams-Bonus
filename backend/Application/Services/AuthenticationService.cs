@@ -6,7 +6,6 @@ using AutoMapper;
 using backend.Application.Dtos;
 using backend.Application.IServices;
 using backend.Domain.Entities;
-using backend.Domain.Exceptions.NotFound;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

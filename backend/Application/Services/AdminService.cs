@@ -1,7 +1,6 @@
 using System.Net;
 using backend.Application.IServices;
 using backend.Domain.Entities;
-using backend.Domain.Exceptions.NotFound;
 using backend.Domain.IRepository;
 using Microsoft.AspNetCore.Identity;
 
